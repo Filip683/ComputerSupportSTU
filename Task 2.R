@@ -1,0 +1,111 @@
+# -------------------------------------------------------------------------
+# TASK 2: Subsetting & Missing Data – pokračovanie z Task 1 (Aurelia)
+# -------------------------------------------------------------------------
+
+# 2.1. Querying Vectors ----------------------------------------------------
+
+## 2.1.1. Sequence vector
+cat("Third element of sequence_vector:\n")
+sequence_vector[3]
+
+cat("Elements 2 through 5 of sequence_vector:\n")
+sequence_vector[2:5]
+
+cat("All values greater than 50 in sequence_vector:\n")
+sequence_vector[sequence_vector > 50]
+
+## 2.1.2. Logical vector
+cat("\nOnly TRUE values from logical_vector:\n")
+logical_vector[logical_vector]
+
+cat("Indices (positions) of TRUE values:\n")
+which(logical_vector)
+
+# -------------------------------------------------------------------------
+# 2.2. Querying Your “Universe” List --------------------------------------
+# -------------------------------------------------------------------------
+
+cat("\nDescription from aurelia_list:\n")
+aurelia_list$description
+
+cat("\nAurelia matrix from list:\n")
+aurelia_list[[16]]   # or aurelia_list$aurelia_matrix
+
+cat("\nSecond element from sequence_vector within list:\n")
+aurelia_list[[14]][2]
+
+# -------------------------------------------------------------------------
+# 2.3. Investigating Your Data Frame --------------------------------------
+# -------------------------------------------------------------------------
+
+cat("\nFirst 3 rows of aurelia_df:\n")
+head(aurelia_df, 3)
+
+cat("\nValue from 4th row, 1st column (city name):\n")
+aurelia_df[4, 1]
+
+cat("\nColumn with logical values (Habitable):\n")
+aurelia_df$Habitable
+
+# Logical Subsetting: only habitable regions
+cat("\nSubset – only habitable regions:\n")
+df_subset <- aurelia_df[aurelia_df$Habitable == TRUE, ]
+print(df_subset)
+
+# %in% Subsetting: select specific categories (e.g., coastal and plateau)
+cat("\nSubset – only 'coastal' or 'plateau' categories:\n")
+df_subset_2 <- aurelia_df[aurelia_df$Category %in% c("coastal", "plateau"), ]
+print(df_subset_2)
+
+# -------------------------------------------------------------------------
+# 2.4. Handling “Corrupted” Data (NA) ------------------------------------
+# -------------------------------------------------------------------------
+
+# Create a copy
+df_corrupted <- aurelia_df
+
+# Introduce 3 NAs
+df_corrupted[2, 3] <- NA   # ResourceScore of Fernhill
+df_corrupted[5, 5] <- NA   # Habitable of Highcrest
+df_corrupted[6, 4] <- NA   # AvgTemp_C of Lowmarsh
+
+cat("\nCorrupted Data Frame (with NAs):\n")
+print(df_corrupted)
+
+# Find total NAs
+cat("\nTotal number of missing values:\n")
+sum(is.na(df_corrupted))
+
+# Find NAs per column
+cat("\nMissing values per column:\n")
+colSums(is.na(df_corrupted))
+
+# Calculate mean (with NA)
+cat("\nMean of ResourceScore (with NA):\n")
+mean(df_corrupted$ResourceScore)
+
+cat("Mean of ResourceScore (ignoring NA):\n")
+mean(df_corrupted$ResourceScore, na.rm = TRUE)
+
+# Remove rows with any NA
+cat("\nClean Data Frame (no missing values):\n")
+df_clean <- na.omit(df_corrupted)
+print(df_clean)
+
+# -------------------------------------------------------------------------
+# 2.5. Bonus Challenge: which() -------------------------------------------
+# -------------------------------------------------------------------------
+
+# Find city with highest population
+highest_pop_index <- which.max(aurelia_df$Population_k)
+cat("\nRow with highest population:\n")
+aurelia_df[highest_pop_index, ]
+
+# Find city with lowest ResourceScore
+lowest_resource_index <- which.min(aurelia_df$ResourceScore)
+cat("\nRow with lowest ResourceScore:\n")
+aurelia_df[lowest_resource_index, ]
+
+# -------------------------------------------------------------------------
+cat("\n-- TASK 2 pre planétu Aurelia: Úspešne dokončené! --\n")
+# -------------------------------------------------------------------------
