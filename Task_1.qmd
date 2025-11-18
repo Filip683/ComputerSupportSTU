@@ -1,0 +1,163 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+# Mini-univerzum: planéta "Aurelia"
+# 1.1 Atomic Types --------------------------------------------------------
+
+# Numeric (double)
+avg_temperature <- 18.7        # priemerná teplota (°C)
+surface_area_million_km2 <- 1.45  # povrch v miliónoch km^2
+avg_elevation_m <- 820.3      # priemerná nadmorská výška (m)
+tourism_rating <- 4.3         # hodnotenie turista (1-5)
+
+# Integer
+num_moons <- as.integer(2)    # počet mesiacov
+num_cities <- as.integer(7)   # počet väčších miest
+population_thousands <- as.integer(2435) # populácia v tisícoch
+
+# Logical
+has_water <- TRUE
+is_inhabited <- TRUE
+
+# Character
+planet_name <- "Aurelia"
+region <- "Cerulean Archipelago"
+category <- "Temperate"
+
+# Jednoduché popisy
+cat("Planéta", planet_name, "sa nachádza v regióne", region, "a je kategórie", category, ".\n")
+cat("Má", num_moons, "mesiace,", num_cities, "mestá a približne", population_thousands, "tisíc obyvateľov.\n")
+cat("Priemerná teplota je", avg_temperature, "°C a turistické hodnotenie je", tourism_rating, "/5.\n")
+cat("Má vodné plochy:", has_water, "— obývaná:", is_inhabited, "\n\n")
+
+# 1.2 Vectors -------------------------------------------------------------
+
+numeric_vector <- c(avg_temperature, surface_area_million_km2,
+                    avg_elevation_m, tourism_rating,
+                    as.numeric(num_moons), as.numeric(num_cities),
+                    as.numeric(population_thousands))
+print("Numeric vector combining numeric + integer variables:")
+print(numeric_vector)
+
+sequence_vector <- seq(from = 23, to = 100, by = 7)
+print("Sequence vector (23 to 100 by 7):")
+print(sequence_vector)
+
+set.seed(123)
+logical_vector <- sample(c(TRUE, FALSE), size = 10, replace = TRUE)
+print("Random logical vector (length 10):")
+print(logical_vector)
+
+# 1.3 Matrix --------------------------------------------------------------
+
+set.seed(42)
+mat_vals <- sample(-50:50, size = 9, replace = TRUE)
+aurelia_matrix <- matrix(mat_vals, nrow = 3, ncol = 3, byrow = TRUE)
+rownames(aurelia_matrix) <- c("North_Isles", "Central_Sea", "South_Plateau")
+colnames(aurelia_matrix) <- c("Sector_A", "Sector_B", "Sector_C")
+
+print("Aurelia 3x3 matrix:")
+print(aurelia_matrix)
+
+row_avgs <- rowMeans(aurelia_matrix)
+col_avgs <- colMeans(aurelia_matrix)
+cat("Row means:\n"); print(row_avgs)
+cat("Column means:\n"); print(col_avgs)
+
+# 1.4 List ----------------------------------------------------------------
+
+aurelia_list <- list(
+    avg_temperature = avg_temperature,
+    surface_area_million_km2 = surface_area_million_km2,
+    avg_elevation_m = avg_elevation_m,
+    tourism_rating = tourism_rating,
+    num_moons = num_moons,
+    num_cities = num_cities,
+    population_thousands = population_thousands,
+    has_water = has_water,
+    is_inhabited = is_inhabited,
+    planet_name = planet_name,
+    region = region,
+    category = category,
+    numeric_vector = numeric_vector,
+    sequence_vector = sequence_vector,
+    logical_vector = logical_vector,
+    aurelia_matrix = aurelia_matrix,
+    description = "Aurelia je mierne teplá ostrovná planéta s rozmanitým povrchom, obývaná inteligentnými druhmi a s rozvíjajúcim sa cestovným ruchom."
+)
+
+print("Stručný prehľad listu (names):")
+print(names(aurelia_list))
+
+# 1.5 Factor --------------------------------------------------------------
+
+resource_levels <- factor(c("high", "medium", "low", "medium", "high", "low"),
+                          levels = c("low", "medium", "high"),
+                          ordered = TRUE)
+print("Resource levels factor:")
+print(resource_levels)
+
+cat("Table of resource levels:\n")
+print(table(resource_levels))
+
+# 1.6 Data Frame ----------------------------------------------------------
+
+names_vec <- c("Marisport", "Fernhill", "Glaeron", "Covehaven", "Highcrest", "Lowmarsh")
+population_k <- c(420, 310, 150, 225, 560, 170)
+resource_score <- c(820, 610, 290, 450, 1120, 310)
+avg_temp_region <- c(19.5, 17.2, 12.8, 18.1, 14.3, 16.0)
+habitable_flag <- c(TRUE, TRUE, TRUE, TRUE, TRUE, FALSE)
+category_vec <- factor(c("coastal", "hinterland", "plateau", "coastal", "plateau", "wetland"))
+
+aurelia_df <- data.frame(
+    name = names_vec,
+    population_k = population_k,
+    resource_score = resource_score,
+    avg_temp = avg_temp_region,
+    habitable = habitable_flag,
+    category = category_vec,
+    stringsAsFactors = FALSE
+)
+
+colnames(aurelia_df) <- c("Name", "Population_k", "ResourceScore", "AvgTemp_C", "Habitable", "Category")
+
+cat("Structure of aurelia_df:\n")
+str(aurelia_df)
+
+cat("\nSummary of aurelia_df:\n")
+print(summary(aurelia_df))
+
+aurelia_df$Resource_per_person <- aurelia_df$ResourceScore / (aurelia_df$Population_k * 1000)
+
+cat("Data frame with new column (first rows):\n")
+print(aurelia_df)
+
+cat("\n-- Hotovo: malé univerzum Aurelia je vytvorené. --\n")
+```
+
+------------------------------------------------------------------------
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
