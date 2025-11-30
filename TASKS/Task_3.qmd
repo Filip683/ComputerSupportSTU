@@ -1,0 +1,85 @@
+---
+title: "Task 3"
+format: html
+editor: visual
+---
+
+```{r}
+# Task 3: Expanding Your Universe
+# Data from: https://simplemaps.com/data/sk-cities
+
+# 3.2. Import --------------------------------------------------------------
+
+# Nainštaluj tidyverse (iba raz v konzole): install.packages("tidyverse")
+# Nainštaluj readxl (iba raz v konzole): install.packages("readxl")
+
+library(dplyr)
+library(readxl)
+
+# Načítaj Excel súbor (sk.xlsx musí byť v priečinku projektu)
+sk_cities <- read_excel("sk Task 3 dataset.xlsx", col_names = TRUE)
+
+# Oprava prázdnych názvov stĺpcov (ak by sa vyskytli)
+names(sk_cities)[names(sk_cities) == ""] <- "unknown"
+
+# Rýchla kontrola dát
+glimpse(sk_cities)
+head(sk_cities)
+summary(sk_cities)
+
+# -------------------------------------------------------------------------
+# 3.3. Interrogation: Explore with dplyr
+# -------------------------------------------------------------------------
+
+# Question 1: Which 5 Slovak cities have the largest population?
+sk_cities %>%
+  select(city, population) %>%
+  arrange(desc(population)) %>%
+  head(5)
+
+# Question 2: What is the average population per admin_name (region)?
+sk_cities %>%
+  group_by(admin_name) %>%
+  summarise(avg_pop = mean(population, na.rm = TRUE))
+
+# Question 3: How many cities are listed per region (admin_name)?
+sk_cities %>%
+  group_by(admin_name) %>%
+  summarise(count = n())
+
+# Question 4: Create a new column with population in thousands
+sk_cities %>%
+  mutate(pop_thousands = population / 1000) %>%
+  select(city, admin_name, pop_thousands) %>%
+  arrange(desc(pop_thousands)) %>%
+  head(10)
+
+# Question 5: Find all cities with population greater than 100,000
+sk_cities %>%
+  filter(population > 100000) %>%
+  select(city, admin_name, population) %>%
+  arrange(desc(population))
+```
+
+------------------------------------------------------------------------
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
