@@ -1,0 +1,91 @@
+---
+title: "Task 5"
+format: html
+editor: visual
+---
+
+```{r}
+# Task 5: Visualising Your Universe (Slovak Cities)
+
+# -------------------------------------------------------------------------
+# 5.0 Balíky
+# Ak ggplot2 ešte nemáš, nainštaluj ho: install.packages("ggplot2")
+library(dplyr)
+library(readxl)
+library(ggplot2)
+
+# -------------------------------------------------------------------------
+# 5.1 Načítanie dát
+sk_cities <- read_excel("sk Task 3 dataset.xlsx", col_names = TRUE)
+names(sk_cities) <- make.names(names(sk_cities), unique = TRUE)
+
+# -------------------------------------------------------------------------
+# 5.2 The Quick Sketch (Base R Histogram)
+# Distribúcia populácie slovenských miest
+hist(sk_cities$population,
+     main = "Distribúcia populácie slovenských miest",
+     xlab = "Počet obyvateľov",
+     col = "lightblue",
+     border = "white")
+
+# -------------------------------------------------------------------------
+# 5.3 The Relationship Map (ggplot2 Scatter Plot)
+# Vzťah medzi zemepisnou šírkou a populáciou
+ggplot(sk_cities, aes(x = lat, y = population)) +
+  geom_point(alpha = 0.7, size = 3, colour = "blue") +
+  geom_smooth(color = "gray") +
+  labs(title = "Vzťah medzi zemepisnou šírkou a populáciou",
+       x = "Zemepisná šírka",
+       y = "Populácia") +
+  theme_minimal()
+
+# -------------------------------------------------------------------------
+# 5.4 The Comparison (ggplot2 Boxplot)
+# Porovnanie populácie podľa regiónov
+ggplot(sk_cities, aes(x = admin_name, y = population, fill = admin_name)) +
+  geom_boxplot() +
+  labs(title = "Porovnanie populácie podľa regiónov",
+       x = "Región",
+       y = "Populácia") +
+  theme_light() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none")
+
+# -------------------------------------------------------------------------
+# 5.5 The Deep Dive (Faceting)
+# Histogram populácie rozdelený podľa regiónov
+ggplot(sk_cities, aes(x = population)) +
+  geom_histogram(bins = 20, fill = "coral", color = "black") +
+  facet_wrap(~ admin_name) +
+  labs(title = "Distribúcia populácie v slovenských regiónoch",
+       x = "Populácia",
+       y = "Počet miest")
+
+# -------------------------------------------------------------------------
+# 5.6 Exportovanie (Saving Your Work)
+# Uloženie boxplotu do súboru
+ggsave("population_by_region.png", width = 8, height = 6)
+```
+
+------------------------------------------------------------------------
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
